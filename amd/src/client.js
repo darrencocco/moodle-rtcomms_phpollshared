@@ -1,8 +1,9 @@
-define(['local_webworkers/sharedworker!rtcomms_phppollshared/worker', 'tool_realtime/api'],
-    function(sharedWorker, realtimeApi) {
+define(['local_webworkers/worker', 'tool_realtime/api'],
+    function(worker, realtimeApi) {
     const sharedWorkerClientPrototype = {
         init(userId, token, pollURLParam, maxDelay, maxFailures, earliestMessageCreationTime, pollType) {
-            this.sharedWorker = sharedWorker();
+            this.sharedWorker = new SharedWorker(worker.getURI('rtcomms_phppollshared/worker'));
+            this.sharedWorker.port.addEventListener('message', this.messageReceiver);
             this.sharedWorker.port.start();
             this.sharedWorker.port.postMessage({
                 type: 'configure',
@@ -16,10 +17,10 @@ define(['local_webworkers/sharedworker!rtcomms_phppollshared/worker', 'tool_real
                     pollType: pollType,
                 }
             });
-            this.sharedWorker.port.onmessage = this.messageReceiver;
-            window.onpagehide = () => {
+            window.addEventListener( 'pagehide', () => {
                 this.sharedWorker.port.postMessage({type: 'close'});
-            };
+            });
+            realtimeApi.setImplementation(pub);
         },
 
         subscribe(context, component, area, itemid, fromId= -1, fromTimestamp = -1) {
@@ -37,7 +38,17 @@ define(['local_webworkers/sharedworker!rtcomms_phppollshared/worker', 'tool_real
         },
 
         messageReceiver(e) {
-            realtimeApi.publish(e.data);
+            switch(e.data.type) {
+                case 'message':
+                    realtimeApi.publish(e.data.message);
+                    break;
+                case 'ping':
+                    this.sharedWorker.port.postMessage({type: 'pong'});
+                    break;
+                default:
+                    // TODO: unknown message, should handle this with an error log to the console.
+            }
+
         },
     };
 
@@ -52,9 +63,9 @@ define(['local_webworkers/sharedworker!rtcomms_phppollshared/worker', 'tool_real
          */
         this.sharedWorker = null;
     }
-    Object.assign(SharedWorkerClient, sharedWorkerClientPrototype);
+    Object.assign(SharedWorkerClient.prototype, sharedWorkerClientPrototype);
     let instance = new SharedWorkerClient();
-    return {
+    let pub = {
         init: function(userId, token, pollURLParam, maxDelay, maxFailures, earliestMessageCreationTime, pollType) {
             instance.init(userId, token, pollURLParam, maxDelay, maxFailures, earliestMessageCreationTime, pollType);
         },
@@ -62,4 +73,5 @@ define(['local_webworkers/sharedworker!rtcomms_phppollshared/worker', 'tool_real
             instance.subscribe(context, component, area, itemid, fromId, fromTimestamp);
         },
     };
+    return pub;
 });

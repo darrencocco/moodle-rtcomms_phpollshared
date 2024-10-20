@@ -12,6 +12,7 @@
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
+      <path value="$PROJECT_DIR$/../moodle" />
       <path value="$PROJECT_DIR$/../../monash/phpstorm/moodle-local_webworkers" />
       <path value="$PROJECT_DIR$/../../monash/phpstorm/moodle-tool_realtime" />
     </include_path>
