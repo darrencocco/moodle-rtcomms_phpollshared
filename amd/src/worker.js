@@ -4,8 +4,8 @@
  * @module     rtcomms_phppollshared/worker
  * @copyright  2024 Darren Cocco
  */
-define(['rtcomms_phppoll/realtime', 'core/pubsub', 'tool_realtime/events', 'local_webworkers/worker'],
-    function(phpPoll, PubSub, RealTimeEvents, workerHelper) {
+define(['rtcomms_phppoll/realtime', 'core/pubsub', 'local_rtcomms/events', 'local_webworkers/web_worker'],
+    function(phpPoll, PubSub, RealTimeEvents, webWorker) {
     return {
         init: function() {
             let portMap = new Map();
@@ -176,7 +176,7 @@ define(['rtcomms_phppoll/realtime', 'core/pubsub', 'tool_realtime/events', 'loca
                     + channelData.area + '/' + channelData.itemid;
             }
 
-            workerHelper.workerSetupComplete();
+            webWorker.workerSetupComplete();
         }
     };
 });

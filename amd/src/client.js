@@ -1,8 +1,8 @@
-define(['local_webworkers/worker', 'tool_realtime/api'],
-    function(worker, realtimeApi) {
+define(['local_webworkers/web_worker', 'local_rtcomms/api'],
+    function(webWorker, realtimeApi) {
     const sharedWorkerClientPrototype = {
         init(userId, token, pollURLParam, maxDelay, maxFailures, earliestMessageCreationTime, pollType) {
-            this.sharedWorker = new SharedWorker(worker.getURI('rtcomms_phppollshared/worker'));
+            this.sharedWorker = new SharedWorker(webWorker.getURI('rtcomms_phppollshared/worker'));
             this.sharedWorker.port.addEventListener('message', this.messageReceiver);
             this.sharedWorker.port.start();
             this.sharedWorker.port.postMessage({
