@@ -16,7 +16,7 @@ class plugin extends \rtcomms_phppoll\plugin {
         $earliestmessagecreationtime = $_SERVER['REQUEST_TIME'];
         $maxfailures = get_config('rtcomms_phppollshared', 'maxfailures');
         $polltype = get_config('rtcomms_phppollshared', 'polltype');
-        $url = new moodle_url('/admin/tool/realtime/plugin/phppollshared/poll.php');
+        $url = new moodle_url('/local/rtcomms/plugin/phppollshared/poll.php');
         $PAGE->requires->js_call_amd('rtcomms_phppollshared/client',  'init',
             [$USER->id, $this->token::get_token(), $url->out(false), $this->poll->get_delay_between_checks(),
                 $maxfailures, $earliestmessagecreationtime, $polltype]);

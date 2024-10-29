@@ -49,6 +49,9 @@ define(['rtcomms_phppoll/realtime', 'core/pubsub', 'local_rtcomms/events', 'loca
                     case 'ping':
                         port.postMessage({type: 'pong'});
                         break;
+                    case 'send':
+                        sendToServer(e.data);
+                        break;
                     default:
                         // TODO: Return better error message.
                         port.postMessage('error');
@@ -174,6 +177,15 @@ define(['rtcomms_phppoll/realtime', 'core/pubsub', 'local_rtcomms/events', 'loca
             function getChannelName(channelData) {
                 return RealTimeEvents.EVENT + '/' + channelData.context + '/' + channelData.component + '/'
                     + channelData.area + '/' + channelData.itemid;
+            }
+
+            /**
+             *
+             * @param {Object} data
+             * @returns void
+             */
+            function sendToServer(data) {
+                phpPoll.sendToServer(data.contextId, data.component, data.area, data.itemId, data.payload);
             }
 
             webWorker.workerSetupComplete();

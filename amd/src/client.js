@@ -48,8 +48,18 @@ define(['local_webworkers/web_worker', 'local_rtcomms/api'],
                 default:
                     // TODO: unknown message, should handle this with an error log to the console.
             }
-
         },
+
+        sendToServer(contextId, component, area, itemId, payload) {
+            this.sharedWorker.port.postMessage({
+                type: 'send',
+                contextId: contextId,
+                component: component,
+                area: area,
+                itemId: itemId,
+                payload: payload,
+            });
+        }
     };
 
     /**
@@ -72,6 +82,9 @@ define(['local_webworkers/web_worker', 'local_rtcomms/api'],
         subscribe: (context, component, area, itemid, fromId= -1, fromTimestamp = -1) => {
             instance.subscribe(context, component, area, itemid, fromId, fromTimestamp);
         },
+        sendToServer: (contextId, component, area, itemId, payload) => {
+            instance.sendToServer(contextId, component, area, itemId, payload);
+        }
     };
     return pub;
 });

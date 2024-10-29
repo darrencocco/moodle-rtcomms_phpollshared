@@ -26,11 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 /** @var stdClass $plugin */
 $plugin->component = 'rtcomms_phppollshared';
-$plugin->release = '0.1';
+$plugin->release = '0.2';
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->version = 2024102400;
+$plugin->version = 2024102900;
 $plugin->requires = 2022081800;
 $plugin->dependencies = [
-    'rtcomms_phppoll' => 2024072400,
+    'rtcomms_phppoll' => 2024102500,
     'local_webworkers' => 2024102300,
 ];
