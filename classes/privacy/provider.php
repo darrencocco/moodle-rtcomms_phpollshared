@@ -15,23 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * DB cleanup task.
+ * Privacy Subsystem implementation for rtcomms_phppollshared.
  *
- * @package     rtcomms_phppollshared
- * @copyright   2024 Darren Cocco
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    rtcomms_phppollshared
+ * @copyright  2024 Darren Cocco
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace rtcomms_phppollshared\task;
+
+namespace rtcomms_phppollshared\privacy;
+
 /**
- * Extends cleanup task from phppoll.
+ * Implementation of the privacy subsystem plugin provider for the rtcomms_phppollshared
+ *
+ * @copyright  2024 Darren Cocco
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class cleanup_task extends \rtcomms_phppoll\task\cleanup_task {
+class provider implements \core_privacy\local\metadata\null_provider {
+
     /**
-     * Task name.
-     * @return \lang_string|string
-     * @throws \coding_exception
+     * Returns stringid of a text explaining that this plugin stores no personal data.
+     *
+     * @return string
      */
-    public function get_name() {
-        return \get_string('taskcleanup', 'rtcomms_phppollshared');
+    public static function get_reason(): string {
+        return 'privacy:metadata';
     }
 }

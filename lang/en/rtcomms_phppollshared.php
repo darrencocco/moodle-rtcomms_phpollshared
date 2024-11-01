@@ -17,7 +17,7 @@
 /**
  * Plugin strings are defined here.
  *
- * @package     rtcomms_phppoll
+ * @package     rtcomms_phppollshared
  * @category    string
  * @copyright   2024 Darren Cocco
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

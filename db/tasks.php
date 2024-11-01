@@ -17,21 +17,21 @@
 /**
  * Tasks definitions.
  *
- * @package    rtcomms_phppoll
+ * @package    rtcomms_phppollshared
  * @copyright  2024 Darren Cocco
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'rtcomms_phppollshared\task\cleanup_task',
         'blocking' => 0,
         'minute' => '*/5',
         'hour' => '*',
         'day' => '*',
         'dayofweek' => '*',
-        'month' => '*'
-    ),
-);
+        'month' => '*',
+    ],
+];
